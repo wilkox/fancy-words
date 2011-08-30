@@ -39,6 +39,7 @@ while (my $line = <DICT>) {
 		next unless exists $lang{$lang};
 		foreach my $word (@word) {
 			$word =~ s/[^a-zA-Z]//g;
+			$word = lc($word);
 			print OUT "$word,$lang,$fancy{$lang}\n";				
 		}
 	}
