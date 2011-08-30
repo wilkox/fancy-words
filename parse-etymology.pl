@@ -23,6 +23,7 @@ use warnings;
 
 die unless open(DICT, "<dict/pgwht04.txt");
 die unless open(OUT, ">dict/ety.csv");
+print OUT "word,lang,fancy\n";
 
 my @word;
 my $ety;
