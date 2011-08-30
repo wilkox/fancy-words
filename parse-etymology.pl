@@ -14,8 +14,8 @@ use warnings;
 );
 
 %fancy = (
-	'OE' => 'not fancy',
-	'AS' => 'not fancy',
+	'OE' => 'plain',
+	'AS' => 'plain',
 	'F' => 'fancy',
 	'L' => 'fancy',
 	'LL' => 'fancy',
@@ -24,19 +24,22 @@ use warnings;
 die unless open(DICT, "<dict/pgwht04.txt");
 die unless open(OUT, ">dict/ety.csv");
 
-my $word;
+my @word;
 my $ety;
 my $lang;
 while (my $line = <DICT>) {
 	if ($line =~ /<h1>(.+)<\/h1>/) {
-		$word = $1;
+		@word = split(/,/, $1);
 	}		
 	if ($line =~ /<ety>(.+)<\/ety>/) {
 		$ety = $1;
 		$ety =~ /\[([^\.]+)\./;
-#		print "\nlang is $1";
-		next unless exists $lang{$1};
-		print OUT "$word, $1\n";				
+		$lang = $1;
+		next unless exists $lang{$lang};
+		foreach my $word (@word) {
+			$word =~ s/[^a-zA-Z]//g;
+			print OUT "$word,$lang,$fancy{$lang}\n";				
+		}
 	}
 }
 
